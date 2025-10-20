@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events — AutoCross Championship</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .events-container {
+            padding: 120px 5vw 50px;
+            background-color: #1a1a1a;
+            min-height: 100vh;
+        }
+        
+        .event-card {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            border: 2px solid #FF4444;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 68, 68, 0.2);
+            border-color: #FF6666;
+        }
+        
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 68, 68, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .event-card:hover::before {
+            left: 100%;
+        }
+        
+        .event-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .event-title {
+            font-size: 2.5vw;
+            font-weight: 600;
+            color: #FF4444;
+            margin: 0;
+        }
+        
+        .event-date {
+            font-size: 1.2vw;
+            color: #fff;
+            background: #FF4444;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 500;
+        }
+        
+        .event-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        .event-info {
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        .event-features {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .event-features li {
+            color: #fff;
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .event-features li::before {
+            content: '🏁';
+            position: absolute;
+            left: 0;
+        }
+        
+        .register-btn {
+            background: linear-gradient(45deg, #FF4444, #FF6666);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1vw;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .register-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(255, 68, 68, 0.3);
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 80px;
+            left: 30px;
+            background: #FF4444;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            z-index: 1000;
+        }
+        
+        .back-btn:hover {
+            background: #FF6666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cursor"></div>
+    <div id="nav">
+        <img src="./image/autocross-logo.svg" alt="AutoCross Logo">
+        <div id="nav-part2">
+            <h4><a href="index.html" style="text-decoration: none; color: inherit;">Home</a></h4>
+            <h4 style="border-bottom: 1.5px solid #FF4444;">Events</h4>
+            <h4><a href="schedule.html" style="text-decoration: none; color: inherit;">Schedule</a></h4>
+            <h4><a href="register.html" style="text-decoration: none; color: inherit;">Register</a></h4>
+            <h4><a href="results.html" style="text-decoration: none; color: inherit;">Results</a></h4>
+        </div>
+        <div id="nav-part3">
+            <div id="circle"></div>
+        </div>
+    </div>
+    
+    <div class="events-container">
+        <h1 style="font-size: 4vw; text-align: center; margin-bottom: 50px; color: #FF4444;">Upcoming Events</h1>
+        
+        <div class="event-card">
+            <div class="event-header">
+                <h2 class="event-title">Spring Championship</h2>
+                <span class="event-date">March 15, 2024</span>
+            </div>
+            <div class="event-details">
+                <div class="event-info">
+                    <p>Kick off the racing season with our premier Spring Championship event. This high-stakes competition features multiple classes and a challenging course designed to test the skills of both novice and experienced drivers.</p>
+                    <p><strong>Location:</strong> Riverside Speedway Complex</p>
+                    <p><strong>Registration Deadline:</strong> March 10, 2024</p>
+                    <p><strong>Entry Fee:</strong> $150</p>
+                </div>
+                <div>
+                    <h3 style="color: #FF4444; margin-bottom: 15px;">Event Features:</h3>
+                    <ul class="event-features">
+                        <li>Multiple vehicle classes</li>
+                        <li>Professional timing system</li>
+                        <li>Safety equipment provided</li>
+                        <li>Photography services</li>
+                        <li>Awards ceremony</li>
+                        <li>Food and refreshments</li>
+                    </ul>
+                </div>
+            </div>
+            <button class="register-btn">Register Now</button>
+        </div>
+        
+        <div class="event-card">
+            <div class="event-header">
+                <h2 class="event-title">Summer Series</h2>
+                <span class="event-date">June 22, 2024</span>
+            </div>
+            <div class="event-details">
+                <div class="event-info">
+                    <p>The Summer Series brings the heat with an extended course layout and additional challenges. Perfect for drivers looking to push their limits in warm weather conditions.</p>
+                    <p><strong>Location:</strong> Central Motorsports Park</p>
+                    <p><strong>Registration Deadline:</strong> June 17, 2024</p>
+                    <p><strong>Entry Fee:</strong> $175</p>
+                </div>
+                <div>
+                    <h3 style="color: #FF4444; margin-bottom: 15px;">Event Features:</h3>
+                    <ul class="event-features">
+                        <li>Extended course layout</li>
+                        <li>Heat management systems</li>
+                        <li>Advanced timing technology</li>
+                        <li>Live streaming</li>
+                        <li>VIP spectator areas</li>
+                        <li>Professional photography</li>
+                    </ul>
+                </div>
+            </div>
+            <button class="register-btn">Register Now</button>
+        </div>
+        
+        <div class="event-card">
+            <div class="event-header">
+                <h2 class="event-title">Fall Classic</h2>
+                <span class="event-date">September 8, 2024</span>
+            </div>
+            <div class="event-details">
+                <div class="event-info">
+                    <p>The Fall Classic is our signature event featuring the most challenging course of the season. Cooler temperatures and optimal conditions make this the perfect event for setting new records.</p>
+                    <p><strong>Location:</strong> Mountain View Raceway</p>
+                    <p><strong>Registration Deadline:</strong> September 3, 2024</p>
+                    <p><strong>Entry Fee:</strong> $200</p>
+                </div>
+                <div>
+                    <h3 style="color: #FF4444; margin-bottom: 15px;">Event Features:</h3>
+                    <ul class="event-features">
+                        <li>Championship course design</li>
+                        <li>Professional timing</li>
+                        <li>Record tracking system</li>
+                        <li>Media coverage</li>
+                        <li>Sponsor showcase</li>
+                        <li>Championship awards</li>
+                    </ul>
+                </div>
+            </div>
+            <button class="register-btn">Register Now</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
