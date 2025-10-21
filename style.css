@@ -156,11 +156,13 @@ html, body {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    z-index: 100;
+    z-index: 1000;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     display: block;
+    pointer-events: auto;
+    user-select: none;
 }
 
 .unmute-hint:hover {

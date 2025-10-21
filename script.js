@@ -368,16 +368,27 @@ if (heroVideo) {
     // Fallback: try to play after a short delay
     setTimeout(() => {
         if (heroVideo.readyState >= 2) { // HAVE_CURRENT_DATA
+            console.log("Attempting fallback video play");
             var promise = heroVideo.play();
             if (promise !== undefined) {
                 promise.then(_ => {
                     console.log("Video autoplay started (fallback)");
                 }).catch(error => {
-                    console.log("Video autoplay prevented (fallback)");
+                    console.log("Video autoplay prevented (fallback):", error);
                 });
             }
+        } else {
+            console.log("Video not ready, current state:", heroVideo.readyState);
         }
     }, 1000);
+    
+    // Force play after 2 seconds if still not playing
+    setTimeout(() => {
+        if (heroVideo.paused) {
+            console.log("Video is paused, forcing play");
+            heroVideo.play().catch(e => console.log("Force play failed:", e));
+        }
+    }, 2000);
 }
 
 // Unmute hero video only on user interaction (following Chrome best practices)
@@ -424,13 +435,13 @@ ScrollTrigger.create({
     onLeave: () => { if (heroVideo) heroVideo.muted = true },
     onEnterBack: () => { 
         if (heroVideo) {
-            heroVideo.muted = false;
+            // Don't automatically unmute - let user control it
             heroVideo.play();
         }
     },
     onLeaveBack: () => { 
         if (heroVideo) {
-            heroVideo.muted = false;
+            // Don't automatically unmute - let user control it
             heroVideo.play();
         }
     }
