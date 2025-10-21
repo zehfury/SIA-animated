@@ -330,17 +330,40 @@ var featuredVideos = document.querySelectorAll(".lazy-video")
 // Force video to play on load (following Chrome autoplay best practices)
 if (heroVideo) {
     heroVideo.muted = true; // Ensure it's muted for autoplay
-    var promise = heroVideo.play();
     
-    if (promise !== undefined) {
-        promise.then(_ => {
-            // Autoplay started successfully!
-            console.log("Video autoplay started");
-        }).catch(error => {
-            // Autoplay was prevented - this is normal
-            console.log("Video autoplay prevented, waiting for user interaction");
-        });
-    }
+    // Add error handling for video loading
+    heroVideo.addEventListener('error', function(e) {
+        console.log("Video loading error:", e);
+        // Try to load the video source again
+        heroVideo.load();
+    });
+    
+    heroVideo.addEventListener('canplay', function() {
+        console.log("Video can play, attempting autoplay");
+        var promise = heroVideo.play();
+        
+        if (promise !== undefined) {
+            promise.then(_ => {
+                console.log("Video autoplay started successfully");
+            }).catch(error => {
+                console.log("Video autoplay prevented, waiting for user interaction");
+            });
+        }
+    });
+    
+    // Fallback: try to play after a short delay
+    setTimeout(() => {
+        if (heroVideo.readyState >= 2) { // HAVE_CURRENT_DATA
+            var promise = heroVideo.play();
+            if (promise !== undefined) {
+                promise.then(_ => {
+                    console.log("Video autoplay started (fallback)");
+                }).catch(error => {
+                    console.log("Video autoplay prevented (fallback)");
+                });
+            }
+        }
+    }, 1000);
 }
 
 // Unmute hero video only on user interaction (following Chrome best practices)

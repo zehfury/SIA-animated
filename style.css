@@ -148,16 +148,19 @@ html, body {
     position: absolute;
     bottom: 20px;
     right: 20px;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     color: white;
-    padding: 10px 15px;
+    padding: 12px 18px;
     border-radius: 25px;
     font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    z-index: 10;
+    z-index: 100;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    display: block;
 }
 
 .unmute-hint:hover {
