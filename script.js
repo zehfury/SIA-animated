@@ -6,9 +6,12 @@ window.GCAL_CALENDAR_ID = window.GCAL_CALENDAR_ID || "c6bd317374d90d8914db66f94e
 window.VENUE_PLACE_ID = window.VENUE_PLACE_ID || null;
 
 // Debug: Log API keys to console
+console.log("=== DEBUG INFO ===");
 console.log("API Key loaded:", window.GOOGLE_API_KEY ? "Yes" : "No");
 console.log("YouTube Playlist ID:", window.YT_PLAYLIST_ID);
 console.log("Calendar ID:", window.GCAL_CALENDAR_ID);
+console.log("Script loaded successfully - no process.env errors");
+console.log("==================");
 
 function init() {
     gsap.registerPlugin(ScrollTrigger);
