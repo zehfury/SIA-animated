@@ -1,9 +1,10 @@
 // ----- GOOGLE APIs CONFIG -----
-// Environment variables are loaded from Netlify environment or fallback to defaults
-window.GOOGLE_API_KEY = window.GOOGLE_API_KEY || process.env.GOOGLE_API_KEY || "YOUR_GOOGLE_API_KEY_HERE";
-window.YT_PLAYLIST_ID = window.YT_PLAYLIST_ID || process.env.YT_PLAYLIST_ID || "YOUR_YOUTUBE_PLAYLIST_ID_HERE";
-window.GCAL_CALENDAR_ID = window.GCAL_CALENDAR_ID || process.env.GCAL_CALENDAR_ID || "YOUR_GOOGLE_CALENDAR_ID_HERE";
-window.VENUE_PLACE_ID = window.VENUE_PLACE_ID || process.env.VENUE_PLACE_ID || null;
+// For Netlify: Set environment variables in Netlify dashboard
+// For local: Replace the placeholder values with your actual keys
+window.GOOGLE_API_KEY = window.GOOGLE_API_KEY || "YOUR_GOOGLE_API_KEY_HERE";
+window.YT_PLAYLIST_ID = window.YT_PLAYLIST_ID || "YOUR_YOUTUBE_PLAYLIST_ID_HERE";
+window.GCAL_CALENDAR_ID = window.GCAL_CALENDAR_ID || "YOUR_GOOGLE_CALENDAR_ID_HERE";
+window.VENUE_PLACE_ID = window.VENUE_PLACE_ID || null;
 
 function init() {
     gsap.registerPlugin(ScrollTrigger);
