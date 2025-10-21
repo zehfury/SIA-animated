@@ -407,7 +407,17 @@ html, body {
     font-weight: 400;
     margin-bottom: 50px;
 }
-
+.page6 h2{
+    font-size: 4vw;
+    color: #111;
+    text-transform: uppercase;
+    font-weight: 400;
+}
+.page7 h2{
+    font-size: 4vw;
+    text-transform: uppercase;
+    font-weight: 400;
+}
 .events-line {
     width: 100%;
     height: 1px;

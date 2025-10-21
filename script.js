@@ -1,9 +1,9 @@
-// ----- GOOGLE APIs CONFIG (fill these before running) -----
-// Put your keys/ids here (safe for classroom demo; restrict via HTTP referrers)
-window.GOOGLE_API_KEY = window.GOOGLE_API_KEY || "AIzaSyDKqaJU4zamOey5awOOaAVIHR-Os6CT7T4"; // Maps + Places + YouTube + (read-only public Calendar)
-window.YT_PLAYLIST_ID = window.YT_PLAYLIST_ID || "PLgSOxKiZvKIsOUhIYkorfJ5iapqEV3U_Z"; // e.g., PLxxxxxxxx
-window.GCAL_CALENDAR_ID = window.GCAL_CALENDAR_ID || "c6bd317374d90d8914db66f94e6f1e171b973d257fb11f64e03c0af1def8cb36@group.calendar.google.com"; // must be public
-window.VENUE_PLACE_ID = window.VENUE_PLACE_ID || null; // optional, a specific Place ID of your venue
+// ----- GOOGLE APIs CONFIG -----
+// Environment variables are loaded from Netlify environment or fallback to defaults
+window.GOOGLE_API_KEY = window.GOOGLE_API_KEY || process.env.GOOGLE_API_KEY || "YOUR_GOOGLE_API_KEY_HERE";
+window.YT_PLAYLIST_ID = window.YT_PLAYLIST_ID || process.env.YT_PLAYLIST_ID || "YOUR_YOUTUBE_PLAYLIST_ID_HERE";
+window.GCAL_CALENDAR_ID = window.GCAL_CALENDAR_ID || process.env.GCAL_CALENDAR_ID || "YOUR_GOOGLE_CALENDAR_ID_HERE";
+window.VENUE_PLACE_ID = window.VENUE_PLACE_ID || process.env.VENUE_PLACE_ID || null;
 
 function init() {
     gsap.registerPlugin(ScrollTrigger);
@@ -174,7 +174,7 @@ var tl5 = gsap.timeline({
     }
 })
 tl5.to(".main", {
-    backgroundColor: "#2d1810", // Brown/dark orange
+    backgroundColor: "#0d0d1a", // Brown/dark orange
 })
 
 // ===== PAGE 6 BACKGROUND COLOR ANIMATIONS =====
@@ -203,7 +203,7 @@ var tl7 = gsap.timeline({
     }
 })
 tl7.to(".main", {
-    backgroundColor: "#0F0D0D", // Dark red
+    backgroundColor: "#0d0d1a", 
 })
 
 // ===== PAGE 7 BACKGROUND COLOR ANIMATIONS =====
@@ -218,7 +218,7 @@ var tl8 = gsap.timeline({
     }
 })
 tl8.to(".main", {
-    backgroundColor: "#0d0d1a", // Dark blue
+    backgroundColor: "#0F0D0D", 
 })
 
 var tl9 = gsap.timeline({
@@ -232,7 +232,7 @@ var tl9 = gsap.timeline({
     }
 })
 tl9.to(".main", {
-    backgroundColor: "#0a0a0a", // Very dark (back to dark)
+    backgroundColor: "#0F0D0D", // Very dark (back to dark)
 })
 
 
