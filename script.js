@@ -5,8 +5,6 @@ window.YT_PLAYLIST_ID = window.YT_PLAYLIST_ID || "PLgSOxKiZvKIsOUhIYkorfJ5iapqEV
 window.GCAL_CALENDAR_ID = window.GCAL_CALENDAR_ID || "c6bd317374d90d8914db66f94e6f1e171b973d257fb11f64e03c0af1def8cb36@group.calendar.google.com";
 window.VENUE_PLACE_ID = window.VENUE_PLACE_ID || null;
 
-// API keys loaded successfully
-
 // Coming Soon Modal Functions
 function showComingSoon(feature) {
     const modal = document.getElementById('coming-soon-modal');
@@ -327,115 +325,26 @@ h4.forEach(function(elem){
 var heroVideo = document.querySelector("#hero-video")
 var featuredVideos = document.querySelectorAll(".lazy-video")
 
-// Force video to play on load (following Chrome autoplay best practices)
+// Video autoplay setup
 if (heroVideo) {
-    console.log("Hero video element found:", heroVideo);
-    console.log("Video src:", heroVideo.src || heroVideo.querySelector('source')?.src);
-    console.log("Video currentSrc:", heroVideo.currentSrc);
-    console.log("Video networkState:", heroVideo.networkState);
-    console.log("Video readyState:", heroVideo.readyState);
     heroVideo.muted = true; // Ensure it's muted for autoplay
-    
-    // Add error handling for video loading
-    heroVideo.addEventListener('error', function(e) {
-        console.log("Video loading error:", e);
-        // Try to load the video source again
-        heroVideo.load();
+    heroVideo.play().catch(() => {
+        // Autoplay prevented - this is normal
     });
-    
-    heroVideo.addEventListener('canplay', function() {
-        console.log("Video can play, attempting autoplay");
-        var promise = heroVideo.play();
-        
-        if (promise !== undefined) {
-            promise.then(_ => {
-                console.log("Video autoplay started successfully");
-            }).catch(error => {
-                console.log("Video autoplay prevented, waiting for user interaction");
-            });
-        }
-    });
-    
-    heroVideo.addEventListener('loadstart', function() {
-        console.log("Video loading started");
-    });
-    
-    heroVideo.addEventListener('loadeddata', function() {
-        console.log("Video data loaded");
-    });
-    
-    heroVideo.addEventListener('playing', function() {
-        console.log("Video is playing");
-    });
-    
-    // Fallback: try to play after a short delay
-    setTimeout(() => {
-        if (heroVideo.readyState >= 2) { // HAVE_CURRENT_DATA
-            console.log("Attempting fallback video play");
-            var promise = heroVideo.play();
-            if (promise !== undefined) {
-                promise.then(_ => {
-                    console.log("Video autoplay started (fallback)");
-                }).catch(error => {
-                    console.log("Video autoplay prevented (fallback):", error);
-                });
-            }
-        } else {
-            console.log("Video not ready, current state:", heroVideo.readyState);
-        }
-    }, 1000);
-    
-    // Force play after 2 seconds if still not playing
-    setTimeout(() => {
-        if (heroVideo.paused) {
-            console.log("Video is paused, forcing play");
-            heroVideo.play().catch(e => console.log("Force play failed:", e));
-        }
-    }, 2000);
-    
-    // Test if video file is accessible
-    fetch('bugatti.mp4', { method: 'HEAD' })
-        .then(response => {
-            console.log("Video file accessible:", response.status);
-        })
-        .catch(error => {
-            console.log("Video file not accessible:", error);
-        });
 }
 
-// Unmute hero video only on user interaction (following Chrome best practices)
-var unmuteHint = document.getElementById('unmute-hint');
-
-function unmuteVideo() {
+// Unmute hero video on user interaction
+document.addEventListener('click', function() {
     if (heroVideo && heroVideo.muted) {
         heroVideo.muted = false;
-        heroVideo.play().then(() => {
-            // Hide unmute hint after successful unmute
-            if (unmuteHint) {
-                unmuteHint.classList.add('hidden');
-            }
-        }).catch(error => {
-            console.log("Unmute failed:", error);
-        });
     }
-}
-
-// Unmute on click anywhere
-document.addEventListener('click', function() {
-    unmuteVideo();
 }, { once: true })
 
-// Unmute on scroll
 document.addEventListener('scroll', function() {
-    unmuteVideo();
+    if (heroVideo && heroVideo.muted) {
+        heroVideo.muted = false;
+    }
 }, { once: true })
-
-// Unmute hint click handler
-if (unmuteHint) {
-    unmuteHint.addEventListener('click', function() {
-        unmuteVideo();
-    });
-}
 
 // Mute hero video when scrolling past it
 ScrollTrigger.create({
