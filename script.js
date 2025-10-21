@@ -331,6 +331,9 @@ var featuredVideos = document.querySelectorAll(".lazy-video")
 if (heroVideo) {
     console.log("Hero video element found:", heroVideo);
     console.log("Video src:", heroVideo.src || heroVideo.querySelector('source')?.src);
+    console.log("Video currentSrc:", heroVideo.currentSrc);
+    console.log("Video networkState:", heroVideo.networkState);
+    console.log("Video readyState:", heroVideo.readyState);
     heroVideo.muted = true; // Ensure it's muted for autoplay
     
     // Add error handling for video loading
@@ -389,6 +392,15 @@ if (heroVideo) {
             heroVideo.play().catch(e => console.log("Force play failed:", e));
         }
     }, 2000);
+    
+    // Test if video file is accessible
+    fetch('bugatti.mp4', { method: 'HEAD' })
+        .then(response => {
+            console.log("Video file accessible:", response.status);
+        })
+        .catch(error => {
+            console.log("Video file not accessible:", error);
+        });
 }
 
 // Unmute hero video only on user interaction (following Chrome best practices)
