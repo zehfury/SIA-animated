@@ -1,8 +1,8 @@
 // ----- GOOGLE APIs CONFIG -----
-// Using actual API keys for deployment - will be secured via Google Cloud Console restrictions
-window.GOOGLE_API_KEY = window.GOOGLE_API_KEY || "AIzaSyDKqaJU4zamOey5awOOaAVIHR-Os6CT7T4";
-window.YT_PLAYLIST_ID = window.YT_PLAYLIST_ID || "PLgSOxKiZvKIsOUhIYkorfJ5iapqEV3U_Z";
-window.GCAL_CALENDAR_ID = window.GCAL_CALENDAR_ID || "c6bd317374d90d8914db66f94e6f1e171b973d257fb11f64e03c0af1def8cb36@group.calendar.google.com";
+// Environment variables are loaded from Netlify environment
+window.GOOGLE_API_KEY = window.GOOGLE_API_KEY || "YOUR_GOOGLE_API_KEY_HERE";
+window.YT_PLAYLIST_ID = window.YT_PLAYLIST_ID || "YOUR_YOUTUBE_PLAYLIST_ID_HERE";
+window.GCAL_CALENDAR_ID = window.GCAL_CALENDAR_ID || "YOUR_GOOGLE_CALENDAR_ID_HERE";
 window.VENUE_PLACE_ID = window.VENUE_PLACE_ID || null;
 
 // Coming Soon Modal Functions
