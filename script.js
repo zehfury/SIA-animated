@@ -327,31 +327,55 @@ h4.forEach(function(elem){
 var heroVideo = document.querySelector("#hero-video")
 var featuredVideos = document.querySelectorAll(".lazy-video")
 
-// Force video to play on load (for production autoplay issues)
+// Force video to play on load (following Chrome autoplay best practices)
 if (heroVideo) {
     heroVideo.muted = true; // Ensure it's muted for autoplay
-    heroVideo.play().catch(function(error) {
-        // Fallback: play on first user interaction
-        document.addEventListener('click', function() {
-            heroVideo.play();
-        }, { once: true });
-    });
+    var promise = heroVideo.play();
+    
+    if (promise !== undefined) {
+        promise.then(_ => {
+            // Autoplay started successfully!
+            console.log("Video autoplay started");
+        }).catch(error => {
+            // Autoplay was prevented - this is normal
+            console.log("Video autoplay prevented, waiting for user interaction");
+        });
+    }
 }
 
-// Unmute hero video only on user interaction (required for autoplay policies)
-document.addEventListener('click', function() {
+// Unmute hero video only on user interaction (following Chrome best practices)
+var unmuteHint = document.getElementById('unmute-hint');
+
+function unmuteVideo() {
     if (heroVideo && heroVideo.muted) {
         heroVideo.muted = false;
-        heroVideo.play(); // Ensure video plays when unmuted
+        heroVideo.play().then(() => {
+            // Hide unmute hint after successful unmute
+            if (unmuteHint) {
+                unmuteHint.classList.add('hidden');
+            }
+        }).catch(error => {
+            console.log("Unmute failed:", error);
+        });
     }
+}
+
+// Unmute on click anywhere
+document.addEventListener('click', function() {
+    unmuteVideo();
 }, { once: true })
 
+// Unmute on scroll
 document.addEventListener('scroll', function() {
-    if (heroVideo && heroVideo.muted) {
-        heroVideo.muted = false;
-        heroVideo.play(); // Ensure video plays when unmuted
-    }
+    unmuteVideo();
 }, { once: true })
+
+// Unmute hint click handler
+if (unmuteHint) {
+    unmuteHint.addEventListener('click', function() {
+        unmuteVideo();
+    });
+}
 
 // Mute hero video when scrolling past it
 ScrollTrigger.create({
