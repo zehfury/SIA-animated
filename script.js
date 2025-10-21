@@ -5,6 +5,11 @@ window.YT_PLAYLIST_ID = window.YT_PLAYLIST_ID || "PLgSOxKiZvKIsOUhIYkorfJ5iapqEV
 window.GCAL_CALENDAR_ID = window.GCAL_CALENDAR_ID || "c6bd317374d90d8914db66f94e6f1e171b973d257fb11f64e03c0af1def8cb36@group.calendar.google.com";
 window.VENUE_PLACE_ID = window.VENUE_PLACE_ID || null;
 
+// Debug: Log API keys to console
+console.log("API Key loaded:", window.GOOGLE_API_KEY ? "Yes" : "No");
+console.log("YouTube Playlist ID:", window.YT_PLAYLIST_ID);
+console.log("Calendar ID:", window.GCAL_CALENDAR_ID);
+
 function init() {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -338,10 +343,16 @@ featuredVideos.forEach(function(video) {
 
 // -------------------- GOOGLE APIS BOOTSTRAP --------------------
 function bootstrapYouTube(){
+    console.log("Bootstrap YouTube called");
     const container = document.getElementById('yt-reels');
-    if (!container || !window.GOOGLE_API_KEY || !window.YT_PLAYLIST_ID || window.GOOGLE_API_KEY.includes('YOUR_')) return;
+    if (!container || !window.GOOGLE_API_KEY || !window.YT_PLAYLIST_ID || window.GOOGLE_API_KEY.includes('YOUR_')) {
+        console.log("YouTube bootstrap skipped - missing requirements");
+        return;
+    }
     const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=9&playlistId=${encodeURIComponent(window.YT_PLAYLIST_ID)}&key=${encodeURIComponent(window.GOOGLE_API_KEY)}`;
+    console.log("Fetching YouTube data from:", url);
     fetch(url).then(r=>r.json()).then(data=>{
+        console.log("YouTube API response:", data);
         container.innerHTML = '';
         (data.items||[]).forEach(item=>{
             const sn = item.snippet;
@@ -355,7 +366,9 @@ function bootstrapYouTube(){
             card.innerHTML = `<img src="${thumb ? thumb.url : ''}" alt="${sn.title}"><div class="yt-title">${sn.title}</div>`;
             container.appendChild(card);
         })
-    }).catch(()=>{})
+    }).catch(error=>{
+        console.error("YouTube API error:", error);
+    })
 }
 
 function bootstrapCalendar(){
