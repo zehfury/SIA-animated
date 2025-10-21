@@ -132,10 +132,7 @@ if (document.querySelector("#preloader")) {
         duration: 1,
         ease: "power2.inOut",
         onComplete: function() {
-            // Unmute the hero video after preloader finishes
-            if (heroVideo) {
-                heroVideo.muted = false;
-            }
+            // Keep hero video muted for autoplay compliance
             // Refresh Locomotive Scroll to ensure proper height calculation
             if (window.locoScroll) {
                 window.locoScroll.update();
@@ -153,10 +150,7 @@ if (document.querySelector("#preloader")) {
     }, "-=0.5");
 } else {
     gsap.from(".page1 h1,.page1 h2", { y: 10, rotate: 10, opacity: 0, delay: 0.3, duration: 0.7 });
-    // Unmute the hero video immediately if no preloader
-    if (heroVideo) {
-        heroVideo.muted = false;
-    }
+    // Keep hero video muted for autoplay compliance
     bootstrapYouTube();
     bootstrapCalendar();
     bootstrapMap();
@@ -344,16 +338,18 @@ if (heroVideo) {
     });
 }
 
-// Unmute hero video after user interaction (fallback for autoplay policies)
+// Unmute hero video only on user interaction (required for autoplay policies)
 document.addEventListener('click', function() {
     if (heroVideo && heroVideo.muted) {
-        heroVideo.muted = false
+        heroVideo.muted = false;
+        heroVideo.play(); // Ensure video plays when unmuted
     }
 }, { once: true })
 
 document.addEventListener('scroll', function() {
     if (heroVideo && heroVideo.muted) {
-        heroVideo.muted = false
+        heroVideo.muted = false;
+        heroVideo.play(); // Ensure video plays when unmuted
     }
 }, { once: true })
 
@@ -365,8 +361,18 @@ ScrollTrigger.create({
     end: "bottom bottom",
     onEnter: () => { if (heroVideo) heroVideo.muted = true },
     onLeave: () => { if (heroVideo) heroVideo.muted = true },
-    onEnterBack: () => { if (heroVideo) heroVideo.muted = false },
-    onLeaveBack: () => { if (heroVideo) heroVideo.muted = false }
+    onEnterBack: () => { 
+        if (heroVideo) {
+            heroVideo.muted = false;
+            heroVideo.play();
+        }
+    },
+    onLeaveBack: () => { 
+        if (heroVideo) {
+            heroVideo.muted = false;
+            heroVideo.play();
+        }
+    }
 })
 
 // Add scroll update when reaching venue section to fix iframe height issues
