@@ -19,10 +19,10 @@
             alt="AutoCross Logo">
         <div id="nav-part2">
             <h4 style="border-bottom: 1.5px solid #FF4444;">Home</h4>
-            <h4><a href="events.html" style="text-decoration: none; color: inherit;">Events</a></h4>
-            <h4><a href="schedule.html" style="text-decoration: none; color: inherit;">Schedule</a></h4>
+         <h4><a href="#" onclick="showComingSoon('Events')" style="text-decoration: none; color: inherit;">Events</a></h4>
+            <h4><a href="#" onclick="showComingSoon('Schedule')" style="text-decoration: none; color: inherit;">Schedule</a></h4>
             <h4><a href="register.html" style="text-decoration: none; color: inherit;">Register</a></h4>
-            <h4><a href="results.html" style="text-decoration: none; color: inherit;">Results</a></h4>
+            <h4><a href="#" onclick="showComingSoon('Results')" style="text-decoration: none; color: inherit;">Results</a></h4>
         </div>
         <div id="nav-part3">
             <div id="circle"></div>
@@ -34,7 +34,7 @@
             
             <h1>Precision</h1>
             <h2>meets speed</h2>
-            <video id="hero-video" autoplay muted loop src="bryan.mp4" playsinline></video>
+            <video id="hero-video" autoplay muted loop src="bugatti.mp4" playsinline></video>
         </div>
         <div class="page2">
             <h1>Welcome to AutoCross Championship,</h1>
@@ -59,7 +59,7 @@
                 <video class="lazy-video" loop muted playsinline preload="metadata" poster="m3-poster.jpg"
                     data-src="m3.mp4"></video>
                     <video class="lazy-video" loop muted playsinline preload="metadata" poster="racing-vid2-poster.jpg"
-                    data-src="bugatti.mp4"></video>
+                    data-src="porsche.mp4"></video>
                     <video class="lazy-video" loop muted playsinline preload="metadata" poster="featuredevent1-poster.jpg"
                     data-src="featuredevent1.mp4"></video>
                     <video class="lazy-video" loop muted playsinline preload="metadata" poster="featuredevent1-poster.jpg"
@@ -67,7 +67,7 @@
                      <video class="lazy-video" loop muted playsinline preload="metadata" poster="featuredevent1-poster.jpg"
                     data-src="p1.mp4"></video>
                      <video class="lazy-video" loop muted playsinline preload="metadata" poster="featuredevent1-poster.jpg"
-                    data-src="racing-vid2.mp4"></video>
+                    data-src="racing-vid.mp4"></video>
                      
             </div>
         </div>
@@ -175,6 +175,18 @@
                 </div>
             </div>
         </footer>
+    </div>
+
+    <!-- Coming Soon Modal -->
+    <div id="coming-soon-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>🚧 Coming Soon</h2>
+            <p id="modal-message">This feature is currently under development and will be available soon!</p>
+            <div class="modal-actions">
+                <button onclick="closeModal()" class="modal-btn">Got it!</button>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.js"></script>

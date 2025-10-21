@@ -5,13 +5,67 @@ window.YT_PLAYLIST_ID = window.YT_PLAYLIST_ID || "PLgSOxKiZvKIsOUhIYkorfJ5iapqEV
 window.GCAL_CALENDAR_ID = window.GCAL_CALENDAR_ID || "c6bd317374d90d8914db66f94e6f1e171b973d257fb11f64e03c0af1def8cb36@group.calendar.google.com";
 window.VENUE_PLACE_ID = window.VENUE_PLACE_ID || null;
 
-// Debug: Log API keys to console
-console.log("=== DEBUG INFO ===");
-console.log("API Key loaded:", window.GOOGLE_API_KEY ? "Yes" : "No");
-console.log("YouTube Playlist ID:", window.YT_PLAYLIST_ID);
-console.log("Calendar ID:", window.GCAL_CALENDAR_ID);
-console.log("Script loaded successfully - no process.env errors");
-console.log("==================");
+// API keys loaded successfully
+
+// Coming Soon Modal Functions
+function showComingSoon(feature) {
+    const modal = document.getElementById('coming-soon-modal');
+    const message = document.getElementById('modal-message');
+    
+    // Customize message based on feature
+    const messages = {
+        'Schedule': 'The race schedule will be available soon! Stay tuned for upcoming events and race times.',
+        'Results': 'Race results and leaderboards are coming soon! Check back after our first event.'
+    };
+    
+    message.textContent = messages[feature] || 'This feature is currently under development and will be available soon!';
+    modal.style.display = 'block';
+    
+    // Add smooth animation
+    gsap.fromTo('.modal-content', 
+        { opacity: 0, scale: 0.8, y: -50 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.3, ease: "back.out(1.7)" }
+    );
+}
+
+function closeModal() {
+    const modal = document.getElementById('coming-soon-modal');
+    
+    // Add smooth close animation
+    gsap.to('.modal-content', {
+        opacity: 0,
+        scale: 0.8,
+        y: -50,
+        duration: 0.2,
+        ease: "back.in(1.7)",
+        onComplete: () => {
+            modal.style.display = 'none';
+        }
+    });
+}
+
+// Close modal when clicking outside or on X
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('coming-soon-modal');
+    const closeBtn = document.querySelector('.close');
+    
+    if (closeBtn) {
+        closeBtn.onclick = closeModal;
+    }
+    
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            closeModal();
+        }
+    }
+    
+    // Close on Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && modal.style.display === 'block') {
+            closeModal();
+        }
+    });
+});
 
 function init() {
     gsap.registerPlugin(ScrollTrigger);
@@ -279,6 +333,17 @@ h4.forEach(function(elem){
 var heroVideo = document.querySelector("#hero-video")
 var featuredVideos = document.querySelectorAll(".lazy-video")
 
+// Force video to play on load (for production autoplay issues)
+if (heroVideo) {
+    heroVideo.muted = true; // Ensure it's muted for autoplay
+    heroVideo.play().catch(function(error) {
+        // Fallback: play on first user interaction
+        document.addEventListener('click', function() {
+            heroVideo.play();
+        }, { once: true });
+    });
+}
+
 // Unmute hero video after user interaction (fallback for autoplay policies)
 document.addEventListener('click', function() {
     if (heroVideo && heroVideo.muted) {
@@ -346,16 +411,10 @@ featuredVideos.forEach(function(video) {
 
 // -------------------- GOOGLE APIS BOOTSTRAP --------------------
 function bootstrapYouTube(){
-    console.log("Bootstrap YouTube called");
     const container = document.getElementById('yt-reels');
-    if (!container || !window.GOOGLE_API_KEY || !window.YT_PLAYLIST_ID || window.GOOGLE_API_KEY.includes('YOUR_')) {
-        console.log("YouTube bootstrap skipped - missing requirements");
-        return;
-    }
+    if (!container || !window.GOOGLE_API_KEY || !window.YT_PLAYLIST_ID || window.GOOGLE_API_KEY.includes('YOUR_')) return;
     const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=9&playlistId=${encodeURIComponent(window.YT_PLAYLIST_ID)}&key=${encodeURIComponent(window.GOOGLE_API_KEY)}`;
-    console.log("Fetching YouTube data from:", url);
     fetch(url).then(r=>r.json()).then(data=>{
-        console.log("YouTube API response:", data);
         container.innerHTML = '';
         (data.items||[]).forEach(item=>{
             const sn = item.snippet;
@@ -369,9 +428,7 @@ function bootstrapYouTube(){
             card.innerHTML = `<img src="${thumb ? thumb.url : ''}" alt="${sn.title}"><div class="yt-title">${sn.title}</div>`;
             container.appendChild(card);
         })
-    }).catch(error=>{
-        console.error("YouTube API error:", error);
-    })
+    }).catch(()=>{})
 }
 
 function bootstrapCalendar(){
