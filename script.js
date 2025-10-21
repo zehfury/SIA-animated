@@ -329,6 +329,8 @@ var featuredVideos = document.querySelectorAll(".lazy-video")
 
 // Force video to play on load (following Chrome autoplay best practices)
 if (heroVideo) {
+    console.log("Hero video element found:", heroVideo);
+    console.log("Video src:", heroVideo.src || heroVideo.querySelector('source')?.src);
     heroVideo.muted = true; // Ensure it's muted for autoplay
     
     // Add error handling for video loading
@@ -349,6 +351,18 @@ if (heroVideo) {
                 console.log("Video autoplay prevented, waiting for user interaction");
             });
         }
+    });
+    
+    heroVideo.addEventListener('loadstart', function() {
+        console.log("Video loading started");
+    });
+    
+    heroVideo.addEventListener('loadeddata', function() {
+        console.log("Video data loaded");
+    });
+    
+    heroVideo.addEventListener('playing', function() {
+        console.log("Video is playing");
     });
     
     // Fallback: try to play after a short delay
