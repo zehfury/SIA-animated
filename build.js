@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Read the script.js file
-const scriptPath = path.join(__dirname, 'script.v2.js');
+const scriptPath = path.join(__dirname, 'script.js');
 let scriptContent = fs.readFileSync(scriptPath, 'utf8');
 
 // Replace placeholders with environment variables
