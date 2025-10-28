@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Read the script.js file
-const scriptPath = path.join(__dirname, 'script.js');
+const scriptPath = path.join(__dirname, 'script.v2.js');
 let scriptContent = fs.readFileSync(scriptPath, 'utf8');
 
 // Replace placeholders with environment variables
@@ -22,3 +22,4 @@ Object.entries(replacements).forEach(([placeholder, value]) => {
 fs.writeFileSync(scriptPath, scriptContent);
 
 console.log('Environment variables replaced in script.js');
+

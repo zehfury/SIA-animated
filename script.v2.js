@@ -1,69 +1,9 @@
 // ----- GOOGLE APIs CONFIG -----
-// Environment variables are loaded from Netlify environment
-window.GOOGLE_API_KEY = window.GOOGLE_API_KEY || "YOUR_GOOGLE_API_KEY_HERE";
-window.YT_PLAYLIST_ID = window.YT_PLAYLIST_ID || "YOUR_YOUTUBE_PLAYLIST_ID_HERE";
-window.GCAL_CALENDAR_ID = window.GCAL_CALENDAR_ID || "YOUR_GOOGLE_CALENDAR_ID_HERE";
-window.VENUE_PLACE_ID = window.VENUE_PLACE_ID || null;
-
-// Coming Soon Modal Functions
-function showComingSoon(feature) {
-    const modal = document.getElementById('coming-soon-modal');
-    const message = document.getElementById('modal-message');
-    
-    // Customize message based on feature
-    const messages = {
-        'Schedule': 'The race schedule will be available soon! Stay tuned for upcoming events and race times.',
-        'Results': 'Race results and leaderboards are coming soon! Check back after our first event.'
-    };
-    
-    message.textContent = messages[feature] || 'This feature is currently under development and will be available soon!';
-    modal.style.display = 'block';
-    
-    // Add smooth animation
-    gsap.fromTo('.modal-content', 
-        { opacity: 0, scale: 0.8, y: -50 },
-        { opacity: 1, scale: 1, y: 0, duration: 0.3, ease: "back.out(1.7)" }
-    );
-}
-
-function closeModal() {
-    const modal = document.getElementById('coming-soon-modal');
-    
-    // Add smooth close animation
-    gsap.to('.modal-content', {
-        opacity: 0,
-        scale: 0.8,
-        y: -50,
-        duration: 0.2,
-        ease: "back.in(1.7)",
-        onComplete: () => {
-            modal.style.display = 'none';
-        }
-    });
-}
-
-// Close modal when clicking outside or on X
-document.addEventListener('DOMContentLoaded', function() {
-    const modal = document.getElementById('coming-soon-modal');
-    const closeBtn = document.querySelector('.close');
-    
-    if (closeBtn) {
-        closeBtn.onclick = closeModal;
-    }
-    
-    window.onclick = function(event) {
-        if (event.target === modal) {
-            closeModal();
-        }
-    }
-    
-    // Close on Escape key
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && modal.style.display === 'block') {
-            closeModal();
-        }
-    });
-});
+// Environment variables are loaded from Netlify environment or fallback to defaults
+window.GOOGLE_API_KEY = window.GOOGLE_API_KEY || process.env.GOOGLE_API_KEY || "YOUR_GOOGLE_API_KEY_HERE";
+window.YT_PLAYLIST_ID = window.YT_PLAYLIST_ID || process.env.YT_PLAYLIST_ID || "YOUR_YOUTUBE_PLAYLIST_ID_HERE";
+window.GCAL_CALENDAR_ID = window.GCAL_CALENDAR_ID || process.env.GCAL_CALENDAR_ID || "YOUR_GOOGLE_CALENDAR_ID_HERE";
+window.VENUE_PLACE_ID = window.VENUE_PLACE_ID || process.env.VENUE_PLACE_ID || null;
 
 function init() {
     gsap.registerPlugin(ScrollTrigger);
@@ -130,7 +70,10 @@ if (document.querySelector("#preloader")) {
         duration: 1,
         ease: "power2.inOut",
         onComplete: function() {
-            // Keep hero video muted for autoplay compliance
+            // Unmute the hero video after preloader finishes
+            if (heroVideo) {
+                heroVideo.muted = false;
+            }
             // Refresh Locomotive Scroll to ensure proper height calculation
             if (window.locoScroll) {
                 window.locoScroll.update();
@@ -148,7 +91,10 @@ if (document.querySelector("#preloader")) {
     }, "-=0.5");
 } else {
     gsap.from(".page1 h1,.page1 h2", { y: 10, rotate: 10, opacity: 0, delay: 0.3, duration: 0.7 });
-    // Keep hero video muted for autoplay compliance
+    // Unmute the hero video immediately if no preloader
+    if (heroVideo) {
+        heroVideo.muted = false;
+    }
     bootstrapYouTube();
     bootstrapCalendar();
     bootstrapMap();
@@ -325,24 +271,16 @@ h4.forEach(function(elem){
 var heroVideo = document.querySelector("#hero-video")
 var featuredVideos = document.querySelectorAll(".lazy-video")
 
-// Video autoplay setup
-if (heroVideo) {
-    heroVideo.muted = true; // Ensure it's muted for autoplay
-    heroVideo.play().catch(() => {
-        // Autoplay prevented - this is normal
-    });
-}
-
-// Unmute hero video on user interaction
+// Unmute hero video after user interaction (fallback for autoplay policies)
 document.addEventListener('click', function() {
     if (heroVideo && heroVideo.muted) {
-        heroVideo.muted = false;
+        heroVideo.muted = false
     }
 }, { once: true })
 
 document.addEventListener('scroll', function() {
     if (heroVideo && heroVideo.muted) {
-        heroVideo.muted = false;
+        heroVideo.muted = false
     }
 }, { once: true })
 
@@ -354,18 +292,8 @@ ScrollTrigger.create({
     end: "bottom bottom",
     onEnter: () => { if (heroVideo) heroVideo.muted = true },
     onLeave: () => { if (heroVideo) heroVideo.muted = true },
-    onEnterBack: () => { 
-        if (heroVideo) {
-            // Don't automatically unmute - let user control it
-            heroVideo.play();
-        }
-    },
-    onLeaveBack: () => { 
-        if (heroVideo) {
-            // Don't automatically unmute - let user control it
-            heroVideo.play();
-        }
-    }
+    onEnterBack: () => { if (heroVideo) heroVideo.muted = false },
+    onLeaveBack: () => { if (heroVideo) heroVideo.muted = false }
 })
 
 // Add scroll update when reaching venue section to fix iframe height issues
